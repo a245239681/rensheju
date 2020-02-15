@@ -1,7 +1,7 @@
 <template>
   <div>
      <!-- top 头部 -->
-    <van-nav-bar class="bg" title="就业淘" left-text right-text left-arrow />
+    <!-- <van-nav-bar class="bg" title="就业淘" left-text right-text left-arrow /> -->
     <!-- 搜索 -->
     <!-- <div class="bg_seach"> -->
       <div class="bw">

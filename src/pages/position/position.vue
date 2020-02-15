@@ -1,7 +1,7 @@
 <template>
   <div>
          <!-- top 头部 -->
-    <van-nav-bar class="bg" title="就业淘" left-text right-text left-arrow />
+    <!-- <van-nav-bar class="bg" title="就业淘" left-text right-text left-arrow /> -->
     <!-- 搜索 -->
     <div class="seach">
       <van-search class="bg_van"
@@ -17,8 +17,9 @@
                      <div class="region-ellipsis">{{area}}</div>
                    </span>
                 </van-col>
-                <van-col span="6">最新</van-col>
-                <van-col span="6">最热</van-col>
+                <van-col span="12" class="hot-new">
+                  <span v-for="(hot,index) in keyword" :key='index'  :class="(act.new===hot)?'active':''" @click="hots(hot)">{{hot}}</span>
+                </van-col>
                 <van-col span="6">
                   <span class="region-boxs" @click="showMore">
                     <div class="region-ellipsis">更多</div>
@@ -84,7 +85,16 @@
        <div class="edu">
           <a v-for="(y,index) in years" :key='index'  :class="(selected.yyy===y)?'active':''" @click="yearsChange(y)" >{{y}} </a>
        </div>
-       <div></div>
+       <div class="btn-box">
+          <van-row gutter="20">
+             <van-col span="12">
+                <van-button class="btn" type="default" size="large" @click="reset">重置</van-button>
+             </van-col>
+             <van-col span="12">
+                <van-button class="btn" type="info" size="large" @click="determine">确定</van-button>
+             </van-col>
+          </van-row>
+       </div>
       </div>
       </van-popup>
     </div>
@@ -130,12 +140,18 @@ export default {
       salary: ['不限', '面议', '1300-2000', '2001-3000', '3001-4000',
         '4001-6000', '6001-8000', '8001-10000', '10001-15000', '15001-20000', '20001以上'], // 薪酬范围
       years: ['不限', '0-1年', '1-3年', '3-5年', '5-10年', '10年以上'], // 工作年限
+      keyword: ['最新', '最热'],
       selected: {
-        edu: '不限',
-        sal: '不限',
-        yyy: '不限'
-      }
-
+        edu: '不限', // 学历要求
+        sal: '不限', // 薪资范围
+        yyy: '不限' // 工作年限
+      },
+      act: {
+        new: ''
+      },
+      hotss: '0',
+      latelys: '0',
+      newYeaer: ''
     }
   },
   created () {
@@ -174,6 +190,20 @@ export default {
         _self.pageRow = _self.pageRow + 10
         _self.pageNo = _self.pageNo + 10
       }
+      if (this.selected.yyy !== '不限') {
+        this.newYeaer = this.selected.yyy
+      } else {
+        this.newYeaer = ''
+      }
+      if (this.act.new === '最热') {
+        this.hotss = '1'
+      } else if (this.act.new === '最新') {
+        this.latelys = '1'
+      } else {
+        this.hotss = '0'
+        this.latelys = '0'
+      }
+
       _self.$http.post('/RsRecru/Job/JobList',
         {
           data: {
@@ -181,9 +211,9 @@ export default {
             aca112: this.value || '',
             acb215: this.areaCode || '',
             ycb213: '',
-            hot: '',
-            lately: '',
-            acc217: '',
+            hot: this.hotss,
+            lately: this.latelys,
+            acc217: this.newYeaer,
             pageRow: this.pageRow,
             pageNo: this.pageNo
           },
@@ -261,24 +291,61 @@ export default {
       this.showModal = true
       document.body.style.overflow = 'hidden'
     },
+    // 学历
     eduChange (input) {
       if (!input) return false
       if (input !== this.selected.edu) {
         this.selected.edu = input
       }
     },
+    // 薪酬
     salaryChange (input) {
       if (!input) return false
       if (input !== this.selected.sal) {
         this.selected.sal = input
       }
     },
+    // 年限
     yearsChange (input) {
       if (!input) return false
       if (input !== this.selected.yyy) {
         this.selected.yyy = input
       }
+    },
+
+    // 重置
+    reset () {
+      this.selected.edu = '不限'
+      this.selected.sal = '不限'
+      this.selected.yyy = '不限'
+    },
+    // 提交 更多筛选
+    determine () {
+      console.log(123)
+      this.showModal = false
+      this.pageIndex = 0
+      this.pageRow = 10
+      this.pageNo = 1
+      this.onLoad()
+      this.selected.edu = '不限'
+      this.selected.sal = '不限'
+      this.selected.yyy = '不限'
+    },
+
+    // 最新 最热
+    hots (v) {
+      console.log(15)
+      if (!v) return false
+      if (v !== this.act.new) {
+        this.act.new = v
+      }
+      this.pageIndex = 0
+      this.pageRow = 10
+      this.pageNo = 1
+      this.onLoad()
+      this.act.new = ''
     }
+
   }
 
 }
@@ -378,7 +445,7 @@ export default {
     font-size: .14rem;
     line-height: .25rem;
     float: left;
-    margin-top: .12rem;
+    margin-top: .15rem;
 }
 .region-boxs::after{
     position: absolute;
@@ -425,9 +492,29 @@ export default {
     background-clip: content-box;
     border-radius: .16rem;
 }
+.hot-new > span {
+    color: #fff;
+    font-size: .14rem;
+    text-align: center;
+    width: 50%;
+    display: block;
+    float: left;
+    line-height: .552rem;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    background-clip: content-box;
+
+}
+/* .hot-new > span.active{
+  color: #e75e5e
+} */
 .edu >a.active{
   background-color: #767dff;
     color: #fff;
+}
+.btn-box{
+  background-color: #fff;
+  padding: .10rem;
 }
 
 </style>
