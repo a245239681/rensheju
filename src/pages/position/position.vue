@@ -84,6 +84,7 @@
        <div class="edu">
           <a v-for="(y,index) in years" :key='index'  :class="(selected.yyy===y)?'active':''" @click="yearsChange(y)" >{{y}} </a>
        </div>
+       <div></div>
       </div>
       </van-popup>
     </div>
