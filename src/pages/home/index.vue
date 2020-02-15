@@ -66,7 +66,7 @@
       position="top"
       :style="{ height: '50%' }"
     >
-   <van-area :area-list="areaList" :columns-num="3" ref="myArea" title="选择地区" @change="onChange" @confirm="onConfirm" @cancel="onCancel"/>
+   <van-area :area-list="areaList" :columns-num="3" value="450102" ref="myArea" title="选择地区" @change="onChange" @confirm="onConfirm" @cancel="onCancel"/>
     </van-popup>
     </div>
     <!-- 底部 footer -->

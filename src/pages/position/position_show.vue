@@ -61,13 +61,13 @@
           <div class="fexi">
             <van-row>
                 <van-col span="12">
-                    <div class="lieb">
+                    <div class="lieb" @click="collect">
                         <van-icon name="star-o" />
                         <span>收藏</span>
                     </div>
                 </van-col>
                 <van-col span="12">
-                <van-button class="btn" type="info" size="large" color="#767dff">发送简历</van-button>
+                <van-button class="btn" type="info" size="large" color="#767dff" @click="sendOut">发送简历</van-button>
                 </van-col>
             </van-row>
           </div>
@@ -78,7 +78,8 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios'
-
+import { Toast } from 'vant'
+Vue.use(Toast)
 Vue.prototype.$http = axios
 // 一些默认的参数
 axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
@@ -148,6 +149,12 @@ export default {
     back () {
       console.log(123)
       this.$router.go(-1) // 返回上一层
+    },
+    collect () {
+      Toast('功能暂未开放')
+    },
+    sendOut () {
+      Toast('功能功能待开发')
     }
   }
 

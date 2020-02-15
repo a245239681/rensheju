@@ -11,10 +11,10 @@ import router from './router'
 import axios from 'axios'
 import { Button, NavBar, Search, Row,
   Col, Icon, Tabbar, TabbarItem, Divider,
-  Image, Popup, Area, PullRefresh } from 'vant'
+  Image, Popup, Area, PullRefresh, Toast } from 'vant'
 Vue.use(Button).use(NavBar).use(Search)
   .use(Row).use(Col).use(Icon).use(Tabbar)
-  .use(TabbarItem).use(Divider).use(Image).use(Popup).use(Area).use(PullRefresh)
+  .use(TabbarItem).use(Divider).use(Image).use(Popup).use(Area).use(PullRefresh).use(Toast)
 
 Vue.config.productionTip = false
 
