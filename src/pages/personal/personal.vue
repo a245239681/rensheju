@@ -29,7 +29,7 @@
       </div>-->
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <van-cell class="mb10" v-for="(item, inx) in list" :key="inx" @click="show(item)">
+          <van-cell class="mb10" v-for="(item, inx) in list" :key="inx" @click="show(item.acb330)">
             <van-row>
               <van-col span="24">
                 <van-col span="24">
@@ -148,7 +148,7 @@ export default {
       this.pageRow = 10
       this.pageNo = 1
       this.onLoad()
-      this.area = val[1].name
+      this.area = val[2].name
     },
 
     // 获取列表数据
@@ -161,9 +161,9 @@ export default {
       _self.$http
         .post('/RsRecru/JobFair/JobFairList', {
           data: {
-            aab301: '',
-            pageRow: this.pageRow,
-            pageNo: this.pageNo
+            aab301: _self.areaCode || '',
+            pageRow: _self.pageRow,
+            pageNo: _self.pageNo
           },
           datetime: new Date().getTime(),
           method: 'JobFairList',
@@ -226,17 +226,11 @@ export default {
       this.getroadList()
     },
 
-    // 更多
-
-    go () {
-      this.$router.push('/position')
-    },
-
-    show (item) {
+    show (id) {
       this.$router.push({
         name: 'PersonalShow',
         params: {
-          item: item
+          Id: id
         }
       })
     },

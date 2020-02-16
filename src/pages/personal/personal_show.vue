@@ -3,33 +3,34 @@
         <!-- top 头部 -->
         <!-- <van-nav-bar class="bg" title="招聘会" @click-left="back"  left-text right-text left-arrow /> -->
         <div class="bg_job">
+            <!-- 主题 -->
             <div class="head2">南宁市2020年就业淘</div>
-            <div class="head3">房地产专项招聘会</div>
+            <div class="head3">{{datas.return_data.ycb331}}</div>
             <div class="bg-con">
                 <div class="text">
                     <p>
-                        <span class="color9">招聘会类型：</span>其他
+                        <span class="color9">招聘会类型：</span>{{datas.return_data.ycb336}}
                     </p>
                     <p>
-                        <span class="color9">开始时间：</span>2020-02-11 08:00
+                        <span class="color9">开始时间：</span>{{datas.return_data.acb333}}
                     </p>
                     <p>
-                        <span class="color9">结束时间：</span>2020-02-11 12：30
+                        <span class="color9">结束时间：</span>{{datas.return_data.acb334}}
                     </p>
                     <p>
-                        <span class="color9">主办单位：</span>不详
+                        <span class="color9">主办单位：</span>{{datas.return_data.ycb338}}
                     </p>
                     <p>
-                        <span class="color9">承办单位：</span>不详
+                        <span class="color9">承办单位：</span>{{datas.return_data.ycb339}}
                     </p>
                     <p>
-                        <span class="color9">联系人：</span>邓小姐
+                        <span class="color9">联系人：</span>{{datas.return_data.aae004}}
                     </p>
                     <p>
-                        <span class="color9">联系电话：</span>6230220
+                        <span class="color9">联系电话：</span>{{datas.return_data.aae005}}
                     </p>
                     <p>
-                        <span class="color9">联系地址：</span>南宁市星星路劳动保护局
+                        <span class="color9">联系地址：</span>{{datas.return_data.acb303}}
                     </p>
                 </div>
 
@@ -49,35 +50,72 @@ Vue.prototype.$http = axios
 // 一些默认的参数
 axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 export default {
-  name: 'position_show',
+  name: 'personal_show',
   data () {
     return {
       aab001: '',
       acb210: '',
       datas:
             {
+              code: 0,
+              error_code: 0,
               return_data: {
-                acb210: '',
-                aab001: '',
-                aca112: '',
-                acb217: '',
+                ycb331: '',
+                acb333: '',
+                acb334: '',
                 acb303: '',
-                acb248_dsc: '',
-                Tip: [],
-                intrTip: [],
-                company: {
-                  aab004: '',
-                  tip: []
-                }
+                ycb336: '',
+                aae004: '',
+                ycb338: '',
+                ycb339: '',
+                aae005: ''
               },
               return_time: ''
-            }
+            },
+      acb330: '' // 招聘会编号
     }
   },
   created () {
-
+    let d = this.$route.params
+    console.log(d)
+    this.acb330 = d.Id
+    this.getDetails()
   },
   methods: {
+
+    getDetails () {
+      const _self = this
+      _self.$http.post('/RsRecru/JobFair/JobFairDetails', {
+        data: {
+          acb330: this.acb330
+        },
+        datetime: new Date().getTime(),
+        method: 'JobFairDetails',
+        sign: '0'
+
+      }).then(res => {
+        let d = this.formatDate(res.data.return_time)
+        res.data.return_time = d
+        this.datas = res.data
+      }).catch(error => {
+        console.log(error)
+      }).finally(() => {
+
+      })
+    },
+    formatDate (value) { // 时间戳转换日期格式方法
+      if (value == null) {
+        return ''
+      } else {
+        let date = new Date(value)
+        // let y = date.getFullYear()// 年
+        let MM = date.getMonth() + 1// 月
+        MM = MM < 10 ? ('0' + MM) : MM
+        let d = date.getDate()// 日
+        d = d < 10 ? ('0' + d) : d
+        return MM + '-' + d
+      }
+    }
 
   }
 

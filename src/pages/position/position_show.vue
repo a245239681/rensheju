@@ -1,7 +1,7 @@
 <template>
   <div>
         <!-- top 头部 -->
-    <van-nav-bar class="bg"  @click-left="back"  left-text right-text left-arrow />
+    <!-- <van-nav-bar class="bg"  @click-left="back"  left-text right-text left-arrow /> -->
       <div class="top-show">
         <van-row>
             <van-col span="20">
