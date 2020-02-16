@@ -1,73 +1,79 @@
 <template>
   <div>
-     <!-- top 头部 -->
-    <!-- <van-nav-bar class="bg" title="就业淘" left-text right-text left-arrow /> -->
+    <!-- top 头部 -->
+    <van-nav-bar class="bg" title="招聘会" left-text right-text left-arrow />
     <!-- 搜索 -->
     <!-- <div class="bg_seach"> -->
-      <div class="bw">
-        <div class="search-box">
-         <span class="region-box" @click="showPopup">
-           <div class="region-ellipsis">{{area}}</div>
-           </span>
-          <van-search
-        v-model="value"
-        background='none'
-        placeholder="搜索职位"
-        @search="onSearch"
-        />
-        </div>
-
+    <div class="bw">
+      <div class="search-box">
+        <span class="region-box" @click="showPopup">
+          <div class="region-ellipsis">{{area}}</div>
+        </span>
+        <van-search v-model="value" background="none" placeholder="搜索职位/公司名称" @search="onSearch" />
       </div>
+    </div>
     <!-- </div> -->
     <!-- banner 幻灯片 -->
     <div>
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
         <van-swipe-item>
-         <img class="imgs" src="@/assets/images/banner.png" alt="">
+          <img class="imgs" src="@/assets/images/jobfair_banner1.png" alt />
         </van-swipe-item>
       </van-swipe>
     </div>
     <!-- 列表 推荐 -->
     <div class="mt10">
-      <div class="title">
-        <h3>职位推荐</h3>
-        <span @click="go"><i class="mr10 color6">更多</i><img class="more-img" src="@/assets/images/fanhui.png" alt=""></span>
-      </div>
+      <!-- <div class="title">
+                <h3>职位推荐</h3>
+                <span @click="go"><i class="mr10 color6">更多</i><img src="@/assets/images/fanhui.png" alt=""></span>
+      </div>-->
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-            <van-cell class="mb10" v-for="(item, inx) in list" :key='inx' @click="show(item)">
-              <van-row >
-                  <van-col span="24">
-                    <van-row >
-                        <van-col span="15"><div class="list-title f18">{{item.aca112}}</div></van-col>
-                        <van-col span="9">
-                          <div class="price">
-                            <span>{{item.acb248_dsc}}</span>
-                          </div>
-                        </van-col>
-                      </van-row>
-                      <van-col span="24"> <p class="company-name">{{item.aab004}}</p></van-col>
-                        <van-col span="24">
-                          <div class="ask">
-                            <span v-for="(items, inxs) in item.tip" :key='inxs'>{{items}}</span>
-                          </div>
-                        </van-col>
-                  </van-col>
-                </van-row>
-            </van-cell>
+          <van-cell class="mb10" v-for="(item, inx) in list" :key="inx" @click="show(item)">
+            <van-row>
+              <van-col span="24">
+                <van-col span="24">
+                  <div class="list-title f16">{{item.acb331}}</div>
+                </van-col>
+                <van-col span="24">
+                  <span>
+                    <van-icon class="mr10 mt5 fc-w color-ico" name="clock-o" />
+                    <span class="fc-w color9">开始时间：{{item.acb333}}</span>
+                  </span>
+                </van-col>
+                <van-col span="24">
+                  <span>
+                    <van-icon class="mr10 mt5 fc-w color-ico" name="clock-o" />
+                    <span class="fc-w color9">结束时间：{{item.acb334}}</span>
+                  </span>
+                </van-col>
+                <van-col span="24">
+                  <span>
+                    <van-icon class="mr10 mt5 fc-w color-ico" name="location-o" />
+                    <span class="fc-w color9">地点：{{item.acb303}}</span>
+                  </span>
+                </van-col>
+              </van-col>
+            </van-row>
+          </van-cell>
         </van-list>
       </van-pull-refresh>
       <div style="padding: .26rem"></div>
     </div>
     <div>
       <!-- 地区弹框 -->
-    <van-popup
-      v-model="shows"
-      position="top"
-      :style="{ height: '50%' }"
-    >
-   <van-area :area-list="areaList" :columns-num="3" value="450102" ref="myArea" title="选择地区" @change="onChange" @confirm="onConfirm" @cancel="onCancel"/>
-    </van-popup>
+      <van-popup v-model="shows" position="top" :style="{ height: '50%' }">
+        <van-area
+          :area-list="areaList"
+          :columns-num="3"
+          ref="myArea"
+          value="450102"
+          title="选择地区"
+          @change="onChange"
+          @confirm="onConfirm"
+          @cancel="onCancel"
+        />
+      </van-popup>
     </div>
     <!-- 底部 footer -->
     <footerBar></footerBar>
@@ -81,14 +87,18 @@ import axios from 'axios'
 import areaList from '@/assets/js/area'
 import { List, Cell, DropdownMenu, DropdownItem, Swipe, SwipeItem } from 'vant'
 
-Vue.use(List).use(Cell).use(DropdownMenu).use(DropdownItem).use(Swipe).use(SwipeItem)
+Vue.use(List)
+  .use(Cell)
+  .use(DropdownMenu)
+  .use(DropdownItem)
+  .use(Swipe)
+  .use(SwipeItem)
 // 给Vue实例添加一个是个属性，这样在每个实例中就可以使用this.$http来访问axios实例了
 Vue.prototype.$http = axios
 
 // 一些默认的参数
 axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 export default {
-
   data () {
     return {
       value: '',
@@ -111,13 +121,12 @@ export default {
       pageSize: 10
     }
   },
-  components: {footerBar},
+  components: { footerBar },
   created () {
     this.init()
     // this.getroadList()
   },
   methods: {
-
     init () {},
 
     // value=0改变省，1改变市，2改变区
@@ -149,24 +158,17 @@ export default {
         _self.pageRow = _self.pageRow + 10
         _self.pageNo = _self.pageNo + 10
       }
-      _self.$http.post('/RsRecru/Job/JobList',
-        {
+      _self.$http
+        .post('/RsRecru/JobFair/JobFairList', {
           data: {
-            aab004: '',
-            aca112: '',
-            acb215: this.areaCode,
-            ycb213: '',
-            hot: '',
-            lately: '',
-            acc217: '',
+            aab301: '',
             pageRow: this.pageRow,
             pageNo: this.pageNo
           },
           datetime: new Date().getTime(),
-          method: 'JobList',
+          method: 'JobFairList',
           sign: '0'
-        }
-      )
+        })
         .then(res => {
           if (res.data.code === 0) {
             const rows = res.data.return_data
@@ -184,6 +186,7 @@ export default {
             // 处理数据
             if (_self.pageIndex === 1) {
               _self.list = rows
+              console.log(_self.list)
             } else {
               _self.list = _self.list.concat(rows)
               // console.log(_self.list)
@@ -192,7 +195,8 @@ export default {
         })
         .catch(error => {
           console.log(error)
-        }).finally(() => {
+        })
+        .finally(() => {
           _self.isLoading = false
           _self.loading = false
         })
@@ -209,12 +213,14 @@ export default {
     onCancel () {
       this.shows = false // 关闭弹框
     },
-    onLoad () { // 数据加载、上拉刷新
+    onLoad () {
+      // 数据加载、上拉刷新
       this.pageIndex++
       this.getroadList()
     },
 
-    onRefresh () { // 下拉刷新
+    onRefresh () {
+      // 下拉刷新
       this.pageIndex = 1
       this.finished = false // 不写这句会导致你上拉到底过后在下拉刷新将不能触发下拉加载事件
       this.getroadList()
@@ -228,7 +234,7 @@ export default {
 
     show (item) {
       this.$router.push({
-        name: 'PositionShow',
+        name: 'PersonalShow',
         params: {
           item: item
         }
@@ -238,85 +244,83 @@ export default {
       this.shows = true
     }
   }
-
 }
 </script>
 
 <style>
-.bw{
+.bw {
   background-color: #fff;
-  padding: .1rem;
-  }
-[class*=van-hairline]::after {
-    border: none;
-
+  padding: 0.1rem;
 }
- .bg_seach{
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    padding: .1rem;
-    background-color: #fff;
+[class*="van-hairline"]::after {
+  border: none;
 }
-.van-dropdown-menu{
-      display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
+.bg_seach {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  padding: 0.1rem;
+  background-color: #fff;
 }
-.van-field__body{
-  padding-top: .02rem;
+.van-dropdown-menu {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
 }
-.van-search{
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-flex: 3;
-    -webkit-flex: 3;
-    flex: 3;
-    padding: 0;
+.van-field__body {
+  padding-top: 0.02rem;
+}
+.van-search {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 3;
+  -webkit-flex: 3;
+  flex: 3;
+  padding: 0;
 }
 
 /**搜索 */
 
-.search-box{
+.search-box {
   background-color: #f5f6fa;
-  border-radius: .12rem;
-  padding: .08rem 0;
+  border-radius: 0.12rem;
+  padding: 0.08rem 0;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   position: relative;
 }
 
-.region-box{
+.region-box {
   display: block;
-    position: relative;
-    box-sizing: border-box;
-    max-width: 100%;
-    padding: 0 .16rem;
-    color: #333333;
-    font-size: .14rem;
-    line-height: .25rem;
-    float: left;
+  position: relative;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 0 0.16rem;
+  color: #333333;
+  font-size: 0.14rem;
+  line-height: 0.25rem;
+  float: left;
 }
-.region-box::after{
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-top: -5px;
-    border: 3px solid;
-    border-color: transparent transparent currentColor currentColor;
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    opacity: .8;
-    content: '';
+.region-box::after {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border: 3px solid;
+  border-color: transparent transparent currentColor currentColor;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  opacity: 0.8;
+  content: "";
 }
 .search-box .van-search .van-cell {
-    padding: 0px 8px 0px 15px;
-    border-left: solid 1px #e5e5e5;
+  padding: 0px 8px 0px 15px;
+  border-left: solid 1px #e5e5e5;
 }
 
 .my-swipe .van-swipe-item {
@@ -324,68 +328,77 @@ export default {
   background-color: #fff;
 
   /* font-size: 20px;
-  line-height: 150px;
-  text-align: center;
-  background-color: #39a9ed; */
+    line-height: 150px;
+    text-align: center;
+    background-color: #39a9ed; */
 }
 
-.mt10{
-  margin-top: .1rem;
+.mt10 {
+  margin-top: 0.1rem;
 }
-.f18{
-  font-size: .18rem;
+.f18 {
+  font-size: 0.18rem;
 }
-.color6{color: #666666}
-.mr10{margin-right: .1rem;}
+.f16 {
+  font-size: 0.16rem;
+}
+.color6 {
+  color: #666666;
+}
+.color9 {
+  color: #999;
+}
+.color-ico {
+  color: #7780fe;
+}
+.mr10 {
+  margin-right: 0.1rem;
+}
 
-.title{
-  height: .25rem;
-  border-bottom: .01rem solid #f0efef;
-  line-height: .25rem;
+.title {
+  height: 0.25rem;
+  border-bottom: 0.01rem solid #f0efef;
+  line-height: 0.25rem;
   background-color: #fff;
-  padding: .1rem;
+  padding: 0.1rem;
 }
 .title > h3 {
   float: left;
 }
-.title > span{
-  float:right;
+.title > span {
+  float: right;
 }
-.van-list{
-  margin-bottom: .1rem;
+.van-list {
+  margin-bottom: 0.1rem;
 }
-.list-title{
+.list-title {
   color: #333333;
-  padding-bottom: .18rem;
+  padding-bottom: 0.18rem;
 }
-.company-name{
-  font-size: .14rem;
-  padding-bottom: .12rem;
+.company-name {
+  font-size: 0.14rem;
+  padding-bottom: 0.12rem;
 }
-.ask > span{
+.ask > span {
   background-color: #f4f6f9;
   color: #abb0c2;
-  padding: .06rem;
-  font-size: .11rem;
-  margin-left: .1rem;
+  padding: 0.06rem;
+  font-size: 0.11rem;
+  margin-left: 0.1rem;
 }
-.ask > span:first-child{
+.ask > span:first-child {
   margin-left: 0;
 }
-.price > span{
+.price > span {
   color: #767dff;
-  font-size: .15rem
+  font-size: 0.15rem;
 }
-.mb10{
-  margin-bottom: .1rem;
+.mb10 {
+  margin-bottom: 0.1rem;
 }
-.imgs{
+.imgs {
   height: 1.25rem;
   margin: auto;
   display: block;
 }
-.more-img{
-      height: .1rem;
-}
-
 </style>

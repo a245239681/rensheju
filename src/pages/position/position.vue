@@ -180,7 +180,7 @@ export default {
       this.pageRow = 10
       this.pageNo = 1
       this.onLoad()
-      this.area = val[1].name
+      this.area = val[2].name
     },
 
     // 获取数据

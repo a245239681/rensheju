@@ -1,7 +1,7 @@
 <template>
   <div>
         <!-- top 头部 -->
-    <!-- <van-nav-bar class="bg" title="职位详情" @click-left="back"  left-text right-text left-arrow /> -->
+    <van-nav-bar class="bg"  @click-left="back"  left-text right-text left-arrow />
       <div class="top-show">
         <van-row>
             <van-col span="20">
@@ -16,48 +16,41 @@
             <van-col span="24">
                 <div class="details">
                     <span class="w_color" v-for="(items, inxs) in datas.return_data.intrTip" :key='inxs'> {{items}}</span>
+                    <span class="w_color">{{datas.return_data.Tip[0]}}</span>
                 </div>
             </van-col>
-            <van-col span="24">
-                <span ><van-icon  class="mr10 mt5 fc-w" name="location-o" /><span class="f16 fc-w">{{datas.return_data.acb303}}</span> </span>
+            <van-col span="24" class="line-height">
+                <span ><van-icon  class="mr10 mt5 fc-w" name="location-o" /><span class="f14 fc-w">{{datas.return_data.acb303}}</span> </span>
             </van-col>
         </van-row>
       </div>
-      <!-- <div class="bg-w">
+      <div class="bg-w">
            <van-row>
                 <van-col span="24" class="h">
-                    <div class="f">|</div>
+                    <div class="f"><img class="img-l" src="@/assets/images/ww.png" alt=""></div>
                      <van-divider class="line-wei" content-position="left">职位描述</van-divider>
                 </van-col>
             </van-row>
             <div class="text">
-                <p>
-                    1、根据项目和产品需求，分析设计前端应用的功能流和后端的服务接口需求；
-                </p>
-                <p>
-                    2、现有Web应用的前端开发和改造工作；
-                </p>
-                <p>
-                   3、按照进度、质量完成内容开发；
-                </p>
-                <p>
-                    4、与后台开发人员完成功能调试和集成测试工作；
+                <p style="text-align: center;">
+                    暂无
                 </p>
             </div>
 
-      </div> -->
-        <!-- <div class="bg-w">
+      </div>
+        <div class="bg-w">
            <van-row>
                 <van-col span="24" class="h">
-                    <div class="f">|</div>
+                    <div class="f"><img class="img-l" src="@/assets/images/ww.png" alt=""></div>
                      <van-divider class="line-wei" content-position="left">福利待遇</van-divider>
                 </van-col>
             </van-row>
             <div class="ask">
-                <span>周末双休</span><span>五险一金</span>
+              <p style="text-align: center;">暂无</p>
+                <!-- <span>周末双休</span><span>五险一金</span> -->
             </div>
-      </div> -->
-      <div class="bottom-footer">
+      </div>
+      <!-- <div class="bottom-footer">
           <div class="fexi">
             <van-row>
                 <van-col span="12">
@@ -71,7 +64,7 @@
                 </van-col>
             </van-row>
           </div>
-      </div>
+      </div> -->
   </div>
 </template>
 
@@ -127,6 +120,9 @@ export default {
         let d = this.formatDate(res.data.return_time)
         res.data.return_time = d
         this.datas = res.data
+        if (this.datas.return_data.intrTip.length >= 3) {
+          this.datas.return_data.intrTip[2] = '招' + this.datas.return_data.intrTip[2] + '人'
+        }
       })
       .catch(error => {
         console.log(error)
@@ -181,6 +177,9 @@ export default {
     width: 100%;
 
 }
+.bg-w .ask{
+  min-height: 1.35rem;
+}
 .ask > span{
   background-color: #f4f6f9;
   color: #abb0c2;
@@ -198,9 +197,9 @@ export default {
 
 }
 .line-wei{
-     -webkit-box-flex: 12;
-    -webkit-flex: 12;
-    flex: 12;
+  -webkit-box-flex: 18;
+    -ms-flex: 12;
+    flex: 18;
     font-size: .16rem;
     font-weight: bold;
 }
@@ -216,23 +215,26 @@ export default {
    border-width: .02rem
 }
 .f{
-      display: -webkit-box;
-    display: -webkit-flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-     -webkit-box-flex: 1;
-      -webkit-flex: 1;
-    flex: 1 ;
+    -webkit-box-flex: .5;
+    -ms-flex: 1;
+    flex: .5;
     font-size: .24rem;
     font-weight: bold;
     position: relative;
     top: .12rem;
-    left: .2rem;
+    left: -.10rem;
     color: #767dff;
 }
 .bg-w{
     background-color: #fff;
     padding: .1rem;
     margin-bottom: .1rem;
+}
+.bg-w .van-divider--content-left::before{
+ margin-right: 0px;
 }
 .top-show{
     background-color: #fff;
@@ -263,10 +265,24 @@ export default {
 .f16{
     font-size: .16rem;
 }
+.f14{
+  font-size: .14rem;
+}
 .fc-w{
     color: #959595;
 }
 .mt5{
     vertical-align: -.02rem;
+}
+.line-height{
+  line-height: .25rem;
+}
+.text{
+  min-height: 1.64rem;
+}
+.img-l{
+  height: .135rem;
+  margin-left: .1rem;
+  margin-top: .06rem;
 }
 </style>
