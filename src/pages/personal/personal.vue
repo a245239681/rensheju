@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- top 头部 -->
-    <van-nav-bar class="bg" title="招聘会" left-text right-text left-arrow />
+    <!-- <van-nav-bar class="bg" title="招聘会" left-text right-text left-arrow /> -->
     <!-- 搜索 -->
     <!-- <div class="bg_seach"> -->
     <div class="bw">
@@ -9,7 +9,7 @@
         <span class="region-box" @click="showPopup">
           <div class="region-ellipsis">{{area}}</div>
         </span>
-        <van-search v-model="value" background="none" placeholder="搜索职位/公司名称" @search="onSearch" />
+        <van-search v-model="value" background="none" placeholder="搜索招聘会" @search="onSearch" />
       </div>
     </div>
     <!-- </div> -->
@@ -65,9 +65,9 @@
       <van-popup v-model="shows" position="top" :style="{ height: '50%' }">
         <van-area
           :area-list="areaList"
-          :columns-num="3"
+          :columns-num="2"
           ref="myArea"
-          value="450102"
+          value="450100"
           title="选择地区"
           @change="onChange"
           @confirm="onConfirm"
@@ -141,14 +141,14 @@ export default {
     },
     // 确定选择城市
     onConfirm (val) {
-      console.log(val[2].code)
+      console.log(val[1].code)
       this.shows = false // 关闭弹框
-      this.areaCode = val[2].code
+      this.areaCode = val[1].code
       this.pageIndex = 0
       this.pageRow = 10
       this.pageNo = 1
       this.onLoad()
-      this.area = val[2].name
+      this.area = val[1].name
     },
 
     // 获取列表数据
@@ -202,13 +202,10 @@ export default {
         })
     },
     onSearch () {
-      console.log(this.value)
-      this.$router.push({
-        name: 'Position',
-        params: {
-          val: this.value
-        }
-      })
+      this.pageIndex = 0
+      this.pageRow = 10
+      this.pageNo = 1
+      this.onLoad()
     },
     onCancel () {
       this.shows = false // 关闭弹框

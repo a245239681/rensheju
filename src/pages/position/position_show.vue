@@ -5,18 +5,17 @@
       <div class="top-show">
         <van-row>
             <van-col span="20">
-                <h3 class="name">{{datas.return_data.aca112}}</h3>
+                <h3 class="name">{{datas.return_data.acb213}}</h3>
             </van-col>
             <van-col span="4">
-                <span>{{datas.return_time}}</span>
+                <span class='fc-w'>{{datas.return_time}}</span>
             </van-col>
             <van-col span="24">
                 <span class="price">{{datas.return_data.acb248_dsc}}</span>
             </van-col>
             <van-col span="24">
                 <div class="details">
-                    <span class="w_color" v-for="(items, inxs) in datas.return_data.intrTip" :key='inxs'> {{items}}</span>
-                    <span class="w_color">{{datas.return_data.Tip[0]}}</span>
+                    <span class="" v-for="(items, inxs) in datas.return_data.intrTip" :key='inxs'> {{items}} |</span>
                 </div>
             </van-col>
             <van-col span="24" class="line-height">
@@ -32,8 +31,8 @@
                 </van-col>
             </van-row>
             <div class="text">
-                <p style="text-align: center;">
-                    暂无
+                <p>
+                   {{datas.return_data.acb216}}
                 </p>
             </div>
 
@@ -46,10 +45,21 @@
                 </van-col>
             </van-row>
             <div class="ask">
-              <p style="text-align: center;">暂无</p>
+              {{datas.return_data.acb214}}
+              <!-- <p style="text-align: center;">暂无</p> -->
                 <!-- <span>周末双休</span><span>五险一金</span> -->
             </div>
       </div>
+     <div class="mt10 min-height">
+      <van-row class="p15">
+        <van-col span="20">
+          <p class="company-name-show">{{datas.return_data.company.aab004}}</p>
+          <p class=" f13"><span v-for="(arr, inxs) in datas.return_data.company.tip" :key='inxs'> {{arr}} |</span></p>
+          <p class="f13"><span class="">联系人：</span> {{datas.return_data.company.aae004}} <span class="ml10">联系电话：</span>{{datas.return_data.company.aae005}}</p>
+          <!-- <p class="f13"></p> -->
+        </van-col>
+      </van-row>
+    </div>
       <!-- <div class="bottom-footer">
           <div class="fexi">
             <van-row>
@@ -87,15 +97,18 @@ export default {
         return_data: {
           acb210: '',
           aab001: '',
-          aca112: '',
+          acb213: '',
           acb217: '',
-          acb303: '',
           acb248_dsc: '',
-          Tip: [],
+          acb303: '',
+          acb216: '',
           intrTip: [],
+          acb214: '',
           company: {
             aab004: '',
-            tip: []
+            tip: [],
+            aae005: '',
+            aae004: ''
           }
         },
         return_time: ''
@@ -120,9 +133,12 @@ export default {
         let d = this.formatDate(res.data.return_time)
         res.data.return_time = d
         this.datas = res.data
-        if (this.datas.return_data.intrTip.length >= 3) {
-          this.datas.return_data.intrTip[2] = '招' + this.datas.return_data.intrTip[2] + '人'
-        }
+        let end = this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1]
+        // console.log(end)
+        this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1] = '招' + end + '人'
+        // if (this.datas.return_data.intrTip.length >= 3) {
+        //   this.datas.return_data.intrTip[2] = '招' + this.datas.return_data.intrTip[2] + '人'
+        // }
       })
       .catch(error => {
         console.log(error)
@@ -178,7 +194,7 @@ export default {
 
 }
 .bg-w .ask{
-  min-height: 1.35rem;
+  min-height: .35rem;
 }
 .ask > span{
   background-color: #f4f6f9;
@@ -200,7 +216,7 @@ export default {
   -webkit-box-flex: 18;
     -ms-flex: 12;
     flex: 18;
-    font-size: .16rem;
+    font-size: .14rem;
     font-weight: bold;
 }
 .h{
@@ -212,7 +228,7 @@ export default {
     max-width: 0;
 }
 .h .van-divider::after{
-   border-width: .02rem
+   border-width: .01rem
 }
 .f{
     display: -webkit-box;
@@ -236,6 +252,9 @@ export default {
 .bg-w .van-divider--content-left::before{
  margin-right: 0px;
 }
+.bg-w .van-divider{
+  color: #333;
+}
 .top-show{
     background-color: #fff;
     padding: .2rem .1rem;
@@ -244,13 +263,14 @@ export default {
 .top-show .name {
     font-size: .18rem;
     font-weight:bold;
-    padding-bottom: .1rem;
+    padding-bottom: .15rem;
 }
 .top-show .price {
     display: block;
     color: #767dff;
     font-size: .15rem;
     padding-bottom: .1rem;
+    font-weight: bold;
 }
 .top-show .details {
     font-size: .14rem;
@@ -272,17 +292,39 @@ export default {
     color: #959595;
 }
 .mt5{
-    vertical-align: -.02rem;
+ font-size: .14rem;
 }
 .line-height{
   line-height: .25rem;
 }
 .text{
-  min-height: 1.64rem;
+  min-height: .64rem;
 }
 .img-l{
   height: .135rem;
   margin-left: .1rem;
-  margin-top: .06rem;
+  margin-top: .08rem;
+}
+.company-name-show{
+  font-size: .15rem;
+  font-weight: bold;
+  /* padding-bottom: .12rem; */
+}
+.min-height{
+  min-height: .35rem;
+  background-color: #fff;
+  line-height: .3rem
+}
+.p15{
+  padding: .15rem .1rem;
+}
+.f13{
+  font-size: .13rem
+}
+.ml10{
+  margin-left: .1rem;
+}
+.fw{
+  font-weight: bold
 }
 </style>

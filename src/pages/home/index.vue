@@ -12,7 +12,7 @@
           <van-search
         v-model="value"
         background='none'
-        placeholder="搜索职位"
+        placeholder="搜索公司"
         @search="onSearch"
         />
         </div>
@@ -39,7 +39,7 @@
               <van-row >
                   <van-col span="24">
                     <van-row >
-                        <van-col span="15"><div class="list-title f18">{{item.aca112}}</div></van-col>
+                        <van-col span="15"><div class="list-title f18">{{item.acb213}}</div></van-col>
                         <van-col span="9">
                           <div class="price">
                             <span>{{item.acb248_dsc}}</span>
@@ -66,7 +66,8 @@
       position="top"
       :style="{ height: '50%' }"
     >
-   <van-area :area-list="areaList" :columns-num="3" value="450102" ref="myArea" title="选择地区" @change="onChange" @confirm="onConfirm" @cancel="onCancel"/>
+   <van-area :area-list="areaList" :columns-num="3" value="450102" ref="myArea"
+    cancel-button-text='重置' title="选择地区" @change="onChange" @confirm="onConfirm" @cancel="onCancel"/>
     </van-popup>
     </div>
     <!-- 底部 footer -->
@@ -208,6 +209,13 @@ export default {
     },
     onCancel () {
       this.shows = false // 关闭弹框
+      // 重置地区
+      this.areaCode = ''
+      this.pageIndex = 0
+      this.pageRow = 10
+      this.pageNo = 1
+      this.onLoad()
+      this.area = '全部'
     },
     onLoad () { // 数据加载、上拉刷新
       this.pageIndex++
