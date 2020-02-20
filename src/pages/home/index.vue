@@ -116,6 +116,7 @@ export default {
   created () {
     this.init()
     // this.getroadList()
+    this.$token.getToken()
   },
   methods: {
 

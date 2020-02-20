@@ -5,9 +5,11 @@ import Position from '@/pages/position/position'
 import PositionShow from '@/pages/position/position_show'
 import Personal from '@/pages/personal/personal'
 import PersonalShow from '@/pages/personal/personal_show'
+import Register from '@/pages/reg/reg'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -47,6 +49,14 @@ export default new Router({
       component: PersonalShow,
       meta: {
         title: '招聘会详情'
+      }
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register,
+      meta: {
+        title: '注册'
       }
     }
   ]

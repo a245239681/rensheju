@@ -60,7 +60,8 @@
         </van-col>
       </van-row>
     </div>
-      <!-- <div class="bottom-footer">
+    <div style="padding:.35rem"></div>
+      <div class="bottom-footer">
           <div class="fexi">
             <van-row>
                 <van-col span="12">
@@ -74,18 +75,14 @@
                 </van-col>
             </van-row>
           </div>
-      </div> -->
+      </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import axios from 'axios'
 import { Toast } from 'vant'
 Vue.use(Toast)
-Vue.prototype.$http = axios
-// 一些默认的参数
-axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 export default {
   name: 'position_show',
   data () {
@@ -118,33 +115,38 @@ export default {
     let d = this.$route.params
     this.aab001 = d.item.aab001
     this.acb210 = d.item.acb210
-    this.$http.post('/RsRecru/Job/JobDetails',
-      {
-        data: {
-          aab001: this.aab001,
-          acb210: this.acb210
-        },
-        datetime: new Date().getTime(),
-        method: 'JobDetails',
-        sign: '0'
-      }
-    )
-      .then(res => {
-        let d = this.formatDate(res.data.return_time)
-        res.data.return_time = d
-        this.datas = res.data
-        let end = this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1]
-        // console.log(end)
-        this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1] = '招' + end + '人'
-        // if (this.datas.return_data.intrTip.length >= 3) {
-        //   this.datas.return_data.intrTip[2] = '招' + this.datas.return_data.intrTip[2] + '人'
-        // }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    this.getDetails()
+    // this.$token.getToken()
   },
   methods: {
+    /**
+     * 获取详情数据
+     */
+    getDetails () {
+      this.$http.post('/RsRecru/Job/JobDetails',
+        {
+          data: {
+            aab001: this.aab001,
+            acb210: this.acb210
+          },
+          datetime: new Date().getTime(),
+          method: 'JobDetails',
+          sign: '0'
+        }
+      )
+        .then(res => {
+          let d = this.formatDate(res.data.return_time)
+          res.data.return_time = d
+          this.datas = res.data
+          let end = this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1]
+          // console.log(end)
+          this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1] = '招' + end + '人'
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
     formatDate (value) { // 时间戳转换日期格式方法
       if (value == null) {
         return ''
@@ -162,8 +164,28 @@ export default {
       console.log(123)
       this.$router.go(-1) // 返回上一层
     },
+    /**
+     * 收藏
+     */
     collect () {
-      Toast('功能暂未开放')
+      this.$http.post('/RsRecru/User/favoriteJob', {
+        datetime: new Date().getTime(),
+        method: 'favoriteJob',
+        sign: '0',
+        data: {
+          acb210: this.acb210
+        }
+      }).then(res => {
+        if (res.data.code === 0 && res.data.error_code === 0) {
+          Toast.success('收藏成功')
+        }
+        if (res.data.code === 0 && res.data.error_code === 1) {
+          Toast(res.data.error_msg)
+        }
+      }).catch(res => {
+
+      })
+    // Toast('功能暂未开放')
     },
     sendOut () {
       Toast('功能功能待开发')
@@ -181,7 +203,8 @@ export default {
     font-size: .15rem
 }
 .btn{
-    border-radius: .08rem
+    border-radius: .08rem;
+    font-size: .15rem;
 }
 .fexi{
   background-color: #fff;
@@ -324,7 +347,14 @@ export default {
 .ml10{
   margin-left: .1rem;
 }
+.mb10{
+  margin-bottom: .1rem;
+}
 .fw{
   font-weight: bold
 }
 </style>
+
+  function newFunction() {
+    Toast('收藏成功')
+  }

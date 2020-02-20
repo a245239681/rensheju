@@ -9,14 +9,20 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import routers from '@/utils/routers'
 import { Button, NavBar, Search, Row,
   Col, Icon, Tabbar, TabbarItem, Divider,
-  Image, Popup, Area, PullRefresh, Toast } from 'vant'
+  Image, Popup, Area, PullRefresh, Toast, Field, CellGroup,
+  DropdownMenu, DropdownItem, AddressEdit, RadioGroup, Radio } from 'vant'
 Vue.use(Button).use(NavBar).use(Search)
   .use(Row).use(Col).use(Icon).use(Tabbar)
-  .use(TabbarItem).use(Divider).use(Image).use(Popup).use(Area).use(PullRefresh).use(Toast)
+  .use(TabbarItem).use(Divider).use(Image).use(Popup).use(Area)
+  .use(PullRefresh).use(Toast).use(Field).use(CellGroup)
+  .use(DropdownMenu).use(DropdownItem).use(AddressEdit).use(RadioGroup).use(Radio)
 
 Vue.config.productionTip = false
+
+Vue.prototype.$token = routers
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
@@ -39,7 +45,9 @@ axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 // 请求拦截器：在发送请求前拦截
 axios.interceptors.request.use(config => {
   // console.log('请求发送前拦截')
-  // config.headers.common['AccessToken'] = 'token'
+  let token = localStorage.getItem('Zp-Token')
+  console.log(token)
+  config.headers.common['Zp-Token'] = token
   return config
 }, error => {
   return Promise.reject(error)

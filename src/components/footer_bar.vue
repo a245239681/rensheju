@@ -4,7 +4,7 @@
       <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="column" to="/position">职位</van-tabbar-item>
       <van-tabbar-item icon="cluster" to="/Personal">招聘会</van-tabbar-item>
-      <van-tabbar-item icon="manager" @click="too">我的</van-tabbar-item>
+      <van-tabbar-item icon="manager" to='/Register'>我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
       this.active = 1
     } else if (this.$route.name === 'Personal') {
       this.active = 2
-    } else if (this.$route.name === 'my') {
+    } else if (this.$route.name === 'Register') {
       this.active = 3
     }
   },
