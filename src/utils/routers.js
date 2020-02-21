@@ -1,23 +1,8 @@
 
 // import Vue from 'vue'
 import axios from 'axios'
-import router from '../router'
-// 给Vue实例添加一个是个属性，这样在每个实例中就可以使用this.$http来访问axios实例了
-// Vue.prototype.$http = axios
-// 一些默认的参数
-axios.defaults.baseURL = 'http://gxrswx.healthan.net'
-// 请求拦截器：在发送请求前拦截
-axios.interceptors.request.use(config => {
-// console.log('请求发送前拦截')
-  let token = localStorage.getItem('Zp-Token')
-  if (token === null) {
-    token = ''
-  }
-  config.headers.common['Zp-Token'] = token
-  return config
-}, error => {
-  return Promise.reject(error)
-})
+// import router from '../router'
+
 var code = ''
 const userToken = 'Zp-Token'
 function getToken () {
@@ -28,8 +13,8 @@ function getToken () {
   return token
 };
 
-function setToken (token) {
-  localStorage.setItem(userToken, token)
+function setItem (key, value) {
+  localStorage.setItem(key, value)
 };
 
 /**
@@ -41,7 +26,7 @@ function getCode () { // 非静默授权，第一次有弹框
   local = local.split('//')
   console.log(local[1])
   code = getUrlCode().code // 截取code
-  if (code == null || code === '') { // 如果没有code，则去请求
+  if (code == null || code === '' || code === undefined) { // 如果没有code，则去请求
     window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc57a9c66a8a88bdf&redirect_uri=http://gxrswx.healthan.net/Access/home/getCode&response_type=code&scope=snsapi_base&state=' + local[1] + '&#wechat_redirect'
   } else {
     /**
@@ -68,19 +53,27 @@ function getUrlCode () {
 };
 
 function getTokens () {
-  axios.post('/Access/home/getToken', {
-    dateTime: new Date().getTime(),
-    method: 'getToken',
-    sign: '422121c4dfdfce667689dcd68aae0662',
+  let token = localStorage.getItem('Zp-Token') || ''
+  axios({
+    method: 'POST',
+    url: 'http://gxrswx.healthan.net/Access/home/getToken',
     data: {
-      code: code
-    }
+      dateTime: new Date().getTime(),
+      method: 'getToken',
+      sign: '422121c4dfdfce667689dcd68aae0662',
+      data: {
+        code: code
+      }
+    },
+    withCredentials: false,
+    headers: {'Content-Type': 'application/x-www-form-urlencoded', 'Zp-Token': token}
   }).then(res => {
     if (res.data.code === '0') {
-      setToken(res.data.data.token)
+      setItem('Zp-Token', res.data.data.token)
+      setItem('userName', res.data.data.aac003)
+      setItem('idCard', res.data.data.aac02)
     }
     if (res.data.code === '-2') {
-      router.push('/Register')
     }
   }).catch(res => {
     console.log(res)
@@ -88,5 +81,5 @@ function getTokens () {
 }
 export default {
   getToken: getToken,
-  setToken: setToken
+  setToken: setItem
 }

@@ -48,7 +48,7 @@ import axios from 'axios'
 
 Vue.prototype.$http = axios
 // 一些默认的参数
-axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
+// axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 export default {
   name: 'personal_show',
   data () {
@@ -77,7 +77,7 @@ export default {
   },
   created () {
     let d = this.$route.params
-    console.log(d)
+    // console.log(d)
     this.acb330 = d.Id
     this.getDetails()
   },
@@ -85,7 +85,7 @@ export default {
 
     getDetails () {
       const _self = this
-      _self.$http.post('/RsRecru/JobFair/JobFairDetails', {
+      _self.$http.postJson('/Api/RsRecru/JobFair/JobFairDetails', {
         data: {
           acb330: this.acb330
         },
@@ -93,14 +93,10 @@ export default {
         method: 'JobFairDetails',
         sign: '0'
 
-      }).then(res => {
+      }, res => {
         let d = this.formatDate(res.data.return_time)
         res.data.return_time = d
         this.datas = res.data
-      }).catch(error => {
-        console.log(error)
-      }).finally(() => {
-
       })
     },
     formatDate (value) { // 时间戳转换日期格式方法

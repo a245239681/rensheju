@@ -97,7 +97,7 @@ Vue.use(List)
 Vue.prototype.$http = axios
 
 // 一些默认的参数
-axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
+// axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 export default {
   data () {
     return {
@@ -158,48 +158,42 @@ export default {
         _self.pageRow = _self.pageRow + 10
         _self.pageNo = _self.pageNo + 10
       }
-      _self.$http
-        .post('/RsRecru/JobFair/JobFairList', {
-          data: {
-            aab301: _self.areaCode || '',
-            pageRow: _self.pageRow,
-            pageNo: _self.pageNo
-          },
-          datetime: new Date().getTime(),
-          method: 'JobFairList',
-          sign: '0'
-        })
-        .then(res => {
-          if (res.data.code === 0) {
-            const rows = res.data.return_data
-            if (rows == null || rows.length === 0) {
-              // 加载结束
-              _self.finished = true
-              // return
-            } else {
-              _self.finished = false
-            }
-            if (rows.length < _self.pageSize) {
-              // 最后一页不足10条的情况
-              _self.finished = true
-            }
-            // 处理数据
-            if (_self.pageIndex === 1) {
-              _self.list = rows
-              console.log(_self.list)
-            } else {
-              _self.list = _self.list.concat(rows)
-              // console.log(_self.list)
-            }
+      _self.$http.postJson('/Api/RsRecru/JobFair/JobFairList', {
+        data: {
+          aab301: _self.areaCode || '',
+          pageRow: _self.pageRow,
+          pageNo: _self.pageNo
+        },
+        datetime: new Date().getTime(),
+        method: 'JobFairList',
+        sign: '0'
+      },
+      res => {
+        if (res.data.code === 0) {
+          const rows = res.data.return_data
+          if (rows == null || rows.length === 0) {
+            // 加载结束
+            _self.finished = true
+            // return
+          } else {
+            _self.finished = false
           }
-        })
-        .catch(error => {
-          console.log(error)
-        })
-        .finally(() => {
+          if (rows.length < _self.pageSize) {
+            // 最后一页不足10条的情况
+            _self.finished = true
+          }
+          // 处理数据
+          if (_self.pageIndex === 1) {
+            _self.list = rows
+            console.log(_self.list)
+          } else {
+            _self.list = _self.list.concat(rows)
+            // console.log(_self.list)
+          }
           _self.isLoading = false
           _self.loading = false
-        })
+        }
+      })
     },
     onSearch () {
       this.pageIndex = 0

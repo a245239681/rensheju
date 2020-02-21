@@ -6,6 +6,7 @@ import PositionShow from '@/pages/position/position_show'
 import Personal from '@/pages/personal/personal'
 import PersonalShow from '@/pages/personal/personal_show'
 import Register from '@/pages/reg/reg'
+import My from '@/pages/my/my'
 Vue.use(Router)
 
 export default new Router({
@@ -57,6 +58,14 @@ export default new Router({
       component: Register,
       meta: {
         title: '注册'
+      }
+    },
+    {
+      path: '/My',
+      name: 'My',
+      component: My,
+      meta: {
+        title: '我的'
       }
     }
   ]

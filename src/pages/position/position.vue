@@ -113,7 +113,7 @@ import footerBar from '@/components/footer_bar'
 Vue.prototype.$http = axios
 
 // 一些默认的参数
-axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
+// axios.defaults.baseURL = 'http://api.gxrswx.healthan.net/Api'
 export default {
 
   data () {
@@ -207,7 +207,7 @@ export default {
         this.latelys = '0'
       }
 
-      _self.$http.post('/RsRecru/Job/JobList',
+      _self.$http.postJson('/Api/RsRecru/Job/JobList',
         {
           data: {
             aab004: this.value || '',
@@ -223,9 +223,8 @@ export default {
           datetime: new Date().getTime(),
           method: 'JobList',
           sign: '0'
-        }
-      )
-        .then(res => {
+        },
+        res => {
           if (res.data.code === 0) {
             const rows = res.data.return_data
             if (rows == null || rows.length === 0) {
@@ -246,13 +245,9 @@ export default {
               _self.list = _self.list.concat(rows)
               console.log(_self.list)
             }
+            _self.isLoading = false
+            _self.loading = false
           }
-        })
-        .catch(error => {
-          console.log(error)
-        }).finally(() => {
-          _self.isLoading = false
-          _self.loading = false
         })
     },
 

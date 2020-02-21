@@ -8,7 +8,7 @@
                 <h3 class="name">{{datas.return_data.acb213}}</h3>
             </van-col>
             <van-col span="4">
-                <span class='fc-w'>{{datas.return_time}}</span>
+                <span class='fc-w'>{{datas.return_data.aae036}}</span>
             </van-col>
             <van-col span="24">
                 <span class="price">{{datas.return_data.acb248_dsc}}</span>
@@ -99,6 +99,7 @@ export default {
           acb248_dsc: '',
           acb303: '',
           acb216: '',
+          aae036: '',
           intrTip: [],
           acb214: '',
           company: {
@@ -123,7 +124,7 @@ export default {
      * 获取详情数据
      */
     getDetails () {
-      this.$http.post('/RsRecru/Job/JobDetails',
+      this.$http.postJson('/Api/RsRecru/Job/JobDetails',
         {
           data: {
             aab001: this.aab001,
@@ -132,18 +133,14 @@ export default {
           datetime: new Date().getTime(),
           method: 'JobDetails',
           sign: '0'
-        }
-      )
-        .then(res => {
+        },
+        res => {
           let d = this.formatDate(res.data.return_time)
           res.data.return_time = d
           this.datas = res.data
           let end = this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1]
           // console.log(end)
           this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1] = '招' + end + '人'
-        })
-        .catch(error => {
-          console.log(error)
         })
     },
 
@@ -168,22 +165,21 @@ export default {
      * 收藏
      */
     collect () {
-      this.$http.post('/RsRecru/User/favoriteJob', {
+      this.$http.postJson('/Api/RsRecru/User/favoriteJob', {
         datetime: new Date().getTime(),
         method: 'favoriteJob',
         sign: '0',
         data: {
           acb210: this.acb210
         }
-      }).then(res => {
+      },
+      res => {
         if (res.data.code === 0 && res.data.error_code === 0) {
           Toast.success('收藏成功')
         }
         if (res.data.code === 0 && res.data.error_code === 1) {
           Toast(res.data.error_msg)
         }
-      }).catch(res => {
-
       })
     // Toast('功能暂未开放')
     },

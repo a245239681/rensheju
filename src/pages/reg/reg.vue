@@ -78,8 +78,6 @@
             <van-button native-type='button'  class="button-large" @click="submitForm()"  color="#767dff" size="large">注册</van-button>
         </div>
       </form>
-    <!-- 底部 footer -->
-    <footerBar></footerBar>
 
     <!-- 性别弹框 -->
     <div>
@@ -441,6 +439,7 @@ export default {
       let _self = this
       this.test().then(function (data) {
         if (data === true) {
+          _self.$token.setToken(_self.$route.params.token)
           const regModel = {
             datetime: new Date().getTime(),
             method: 'register',
@@ -459,7 +458,8 @@ export default {
           _self.$http.post('/RsRecru/Login/register', regModel).then(res => {
             if (res.data.code === 0) {
               // debugger
-              console.log(res.data)
+            //  _self.$token.setToken(res.data.data.token)
+              _self.$router.push('/my')
             }
           }).catch(res => {
             console.log(res)

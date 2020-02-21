@@ -12,11 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: { 
       '/api': {  //使用"/api"来代替"http://f.apiplus.c" 
-        target: 'http://api.gxrswx.healthan.net', //源地址 
-        changeOrigin: true, //改变源 
-        pathRewrite: { 
-          '^/api': 'http://api.gxrswx.healthan.net' //路径重写 
-          } 
+      target: 'http://localhost:3577', //本地代理
+      changeOrigin: true,
+      pathRewrite: {
+          '^/api': ''
+      }
       } 
     },
 
