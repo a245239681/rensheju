@@ -165,6 +165,7 @@ export default {
      * 收藏
      */
     collect () {
+      this.$token.getToken()
       this.$http.postJson('/Api/RsRecru/User/favoriteJob', {
         datetime: new Date().getTime(),
         method: 'favoriteJob',

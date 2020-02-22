@@ -13,12 +13,12 @@ import apiAjax from '@/utils/http'
 import { Button, NavBar, Search, Row,
   Col, Icon, Tabbar, TabbarItem, Divider,
   Image, Popup, Area, PullRefresh, Toast, Field, CellGroup,
-  DropdownMenu, DropdownItem, AddressEdit, RadioGroup, Radio } from 'vant'
+  DropdownMenu, DropdownItem, AddressEdit, RadioGroup, Radio, Form } from 'vant'
 Vue.use(Button).use(NavBar).use(Search)
   .use(Row).use(Col).use(Icon).use(Tabbar)
   .use(TabbarItem).use(Divider).use(Image).use(Popup).use(Area)
   .use(PullRefresh).use(Toast).use(Field).use(CellGroup)
-  .use(DropdownMenu).use(DropdownItem).use(AddressEdit).use(RadioGroup).use(Radio)
+  .use(DropdownMenu).use(DropdownItem).use(AddressEdit).use(RadioGroup).use(Radio).use(Form)
 
 Vue.config.productionTip = false
 

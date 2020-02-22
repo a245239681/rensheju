@@ -76,6 +76,7 @@
 
         <div class="sub-btn">
             <van-button native-type='button'  class="button-large" @click="submitForm()"  color="#767dff" size="large">注册</van-button>
+            <p class="mt20">已有账号？<a href="javascript:;" @click="toLogin">立即登录</a></p>
         </div>
       </form>
 
@@ -205,8 +206,6 @@ export default {
     }
   },
   created () {
-    let token = this.$token.getToken()
-    console.log(token)
     // this.getCode()
     // let token = localStorage.getItem('Zp-Token')
     // if (token === undefined || token === null || token === '') {
@@ -439,7 +438,7 @@ export default {
       let _self = this
       this.test().then(function (data) {
         if (data === true) {
-          _self.$token.setToken(_self.$route.params.token)
+          _self.$token.setToken('Zp-Token', _self.$route.params.token)
           const regModel = {
             datetime: new Date().getTime(),
             method: 'register',
@@ -455,17 +454,19 @@ export default {
               yac100: _self.yac100
             }
           }
-          _self.$http.post('/RsRecru/Login/register', regModel).then(res => {
-            if (res.data.code === 0) {
-              // debugger
-            //  _self.$token.setToken(res.data.data.token)
+          _self.$http.postJson('/Api/RsRecru/Login/register', regModel, (res) => {
+            if (res.data.code === 0 && res.data.error_code === 0) {
+              _self.$token.setToken('Zp-Token', res.data.return_data.token)
+              _self.$token.setToken('userName', res.data.return_data.aac003)
+              _self.$token.setToken('idCard', res.data.return_data.aac002)
               _self.$router.push('/my')
             }
-          }).catch(res => {
-            console.log(res)
           })
         }
       })
+    },
+    toLogin () {
+      this.$router.push('/Login')
     }
   }
 }
@@ -525,4 +526,8 @@ export default {
     height: 100%;
     overflow-y: scroll;
 }
+.mt20{
+  margin-top: .2rem;
+}
+
 </style>

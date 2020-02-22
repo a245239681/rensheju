@@ -1,7 +1,7 @@
 
 // import Vue from 'vue'
 import axios from 'axios'
-// import router from '../router'
+import router from '../router'
 
 var code = ''
 const userToken = 'Zp-Token'
@@ -71,9 +71,15 @@ function getTokens () {
     if (res.data.code === '0') {
       setItem('Zp-Token', res.data.data.token)
       setItem('userName', res.data.data.aac003)
-      setItem('idCard', res.data.data.aac02)
+      setItem('idCard', res.data.data.aac002)
     }
     if (res.data.code === '-2') {
+      router.push({
+        name: 'Register',
+        params: {
+          token: res.data.data.token
+        }
+      })
     }
   }).catch(res => {
     console.log(res)
