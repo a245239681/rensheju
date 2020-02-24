@@ -7,8 +7,8 @@ var code = ''
 const userToken = 'Zp-Token'
 function getToken () {
   let token = localStorage.getItem(userToken)
-  if (token === undefined || token === null || token === '') {
-    getCode()
+  if (token === 'undefined' || token === null || token === '') {
+    getCode('')
   }
   return token
 };
@@ -20,12 +20,16 @@ function setItem (key, value) {
 /**
     * 非静默授权，第一次有弹框
     */
-function getCode () { // 非静默授权，第一次有弹框
+function getCode (o) { // 非静默授权，第一次有弹框
   code = ''
   let local = window.location.href // 获取页面url
   local = local.split('//')
   console.log(local[1])
   code = getUrlCode().code // 截取code
+  if (o === '-1') {
+    code = ''
+    local[1] = window.location.host
+  }
   if (code == null || code === '' || code === undefined) { // 如果没有code，则去请求
     window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc57a9c66a8a88bdf&redirect_uri=http://gxrswx.healthan.net/Access/home/getCode&response_type=code&scope=snsapi_base&state=' + local[1] + '&#wechat_redirect'
   } else {
@@ -35,6 +39,7 @@ function getCode () { // 非静默授权，第一次有弹框
     getTokens()
   }
 }
+
 /**
  * 截取url中的code方法
  */
@@ -74,12 +79,11 @@ function getTokens () {
       setItem('idCard', res.data.data.aac002)
     }
     if (res.data.code === '-2') {
-      router.push({
-        name: 'Register',
-        params: {
-          token: res.data.data.token
-        }
-      })
+      setItem('accessCode', res.data.data.accessCode)
+      router.push('/Login')
+    }
+    if (res.data.code === '-1') {
+      getCode(res.data.code)
     }
   }).catch(res => {
     console.log(res)

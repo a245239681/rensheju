@@ -54,8 +54,8 @@
       <van-row class="p15">
         <van-col span="20">
           <p class="company-name-show">{{datas.return_data.company.aab004}}</p>
-          <p class=" f13"><span v-for="(arr, inxs) in datas.return_data.company.tip" :key='inxs'> {{arr}} |</span></p>
-          <p class="f13"><span class="">联系人：</span> {{datas.return_data.company.aae004}} <span class="ml10">联系电话：</span>{{datas.return_data.company.aae005}}</p>
+          <p class=" f12 font-color"><span v-for="(arr, inxs) in datas.return_data.company.tip" :key='inxs'> {{arr}} |</span></p>
+          <p class="f12"><span class="">联系人：</span> {{datas.return_data.company.aae004}} <span class="ml10">联系电话：</span>{{datas.return_data.company.aae005}}</p>
           <!-- <p class="f13"></p> -->
         </van-col>
       </van-row>
@@ -145,16 +145,17 @@ export default {
     },
 
     formatDate (value) { // 时间戳转换日期格式方法
+      debugger
       if (value == null) {
         return ''
       } else {
         let date = new Date(value)
-        // let y = date.getFullYear()// 年
+        let y = date.getFullYear()// 年
         let MM = date.getMonth() + 1// 月
         MM = MM < 10 ? ('0' + MM) : MM
         let d = date.getDate()// 日
         d = d < 10 ? ('0' + d) : d
-        return MM + '-' + d
+        return y + '-' + MM + '-' + d
       }
     },
     back () {
@@ -185,7 +186,7 @@ export default {
     // Toast('功能暂未开放')
     },
     sendOut () {
-      Toast('功能功能待开发')
+      Toast('暂未开放')
     }
   }
 
@@ -215,6 +216,7 @@ export default {
 }
 .bg-w .ask{
   min-height: .35rem;
+  font-size: .14rem
 }
 .ask > span{
   background-color: #f4f6f9;
@@ -307,6 +309,12 @@ export default {
 }
 .f14{
   font-size: .14rem;
+}
+.f12{
+  font-size: .12rem
+}
+.font-color{
+  color: #999999
 }
 .fc-w{
     color: #959595;

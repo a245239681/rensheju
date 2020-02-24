@@ -438,7 +438,7 @@ export default {
       let _self = this
       this.test().then(function (data) {
         if (data === true) {
-          _self.$token.setToken('Zp-Token', _self.$route.params.token)
+          let accessCode = localStorage.getItem('accessCode')
           const regModel = {
             datetime: new Date().getTime(),
             method: 'register',
@@ -451,7 +451,8 @@ export default {
               phonenumber: _self.phonenumber,
               education: _self.education.value,
               aab301: _self.aab301,
-              yac100: _self.yac100
+              yac100: _self.yac100,
+              accessCode: accessCode
             }
           }
           _self.$http.postJson('/Api/RsRecru/Login/register', regModel, (res) => {
@@ -460,6 +461,9 @@ export default {
               _self.$token.setToken('userName', res.data.return_data.aac003)
               _self.$token.setToken('idCard', res.data.return_data.aac002)
               _self.$router.push('/my')
+            }
+            if (res.data.code === 0 && res.data.error_code === 1) {
+              Toast.error_code(res.data.error_msg)
             }
           })
         }

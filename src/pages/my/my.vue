@@ -10,17 +10,17 @@
     <div class=" my-list">
         <div class="bc-w">
             <van-cell-group>
-                <van-cell title="我的简历" icon='orders-o' is-link />
+                <van-cell title="我的简历" icon='orders-o' is-link @click="resume" />
             </van-cell-group>
             <van-cell-group>
-                <van-cell title="我的投递" icon='coupon-o' is-link />
+                <van-cell title="我的投递" icon='coupon-o' is-link @click="Delivery" />
             </van-cell-group>
             <van-cell-group>
-                <van-cell title="我的收藏" icon='star-o' is-link />
+                <van-cell title="我的收藏" icon='star-o' is-link @click="Collection" />
             </van-cell-group>
-            <van-cell-group>
+            <!-- <van-cell-group>
                 <van-cell title="退出" icon='info-o' is-link />
-            </van-cell-group>
+            </van-cell-group> -->
         </div>
     </div>
 
@@ -46,10 +46,38 @@ export default {
   created () {
     this.userName = localStorage.getItem('userName') || ''
     this.idCard = localStorage.getItem('idCard') || ''
+    this.card()
   },
   components: { footerBar },
   methods: {
-
+    card () {
+      if (this.idCard !== '') {
+        this.idCard = this.plusXing(this.idCard, 4, 4)
+      }
+    },
+    plusXing (str, frontLen, endLen) {
+      var len = str.length - frontLen - endLen
+      var xing = ''
+      for (var i = 0; i < len; i++) {
+        xing += '*'
+      }
+      return str.substring(0, frontLen) + xing + str.substring(str.length - endLen)
+    },
+    /**
+     * 收藏
+     */
+    Collection () {
+      Toast('暂未开放')
+    },
+    /**
+     * 简历
+     */
+    resume () {
+      Toast('暂未开放')
+    },
+    Delivery () {
+      Toast('暂未开放')
+    }
   }
 
 }

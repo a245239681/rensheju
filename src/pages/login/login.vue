@@ -55,10 +55,14 @@ export default {
       }
     }
   },
-  created () {},
+  created () {
+    console.log(this.$route.params.token)
+  },
   components: { footerBar },
   methods: {
     onSubmit (values) {
+      let accessCode = localStorage.getItem('accessCode')
+      values.accessCode = accessCode
       this.$http.postJson('/Api/RsRecru/Login/login', {
         datetime: new Date().getTime(),
         method: 'login',
@@ -66,10 +70,14 @@ export default {
         data: values
       },
       res => {
-        if (res.data.code === '0') {
-          this.$token.setItem('Zp-Token', res.data.data.token)
-          this.$token.setItem('userName', res.data.data.aac003)
-          this.$token.setItem('idCard', res.data.data.aac002)
+        if (res.data.code === 0 && res.data.error_code === 0) {
+          this.$token.setToken('Zp-Token', res.data.return_data.token)
+          this.$token.setToken('userName', res.data.return_data.aac003)
+          this.$token.setToken('idCard', res.data.return_data.aac002)
+          this.$router.push('/my')
+        }
+        if (res.data.code === 0 && res.data.error_code === 1) {
+          Toast.error_code(res.data.error_msg)
         }
       })
     },

@@ -12,13 +12,13 @@ import routers from '@/utils/routers'
 import apiAjax from '@/utils/http'
 import { Button, NavBar, Search, Row,
   Col, Icon, Tabbar, TabbarItem, Divider,
-  Image, Popup, Area, PullRefresh, Toast, Field, CellGroup,
+  Image, Popup, Area, PullRefresh, Toast, Field, CellGroup, Cell,
   DropdownMenu, DropdownItem, AddressEdit, RadioGroup, Radio, Form } from 'vant'
 Vue.use(Button).use(NavBar).use(Search)
   .use(Row).use(Col).use(Icon).use(Tabbar)
   .use(TabbarItem).use(Divider).use(Image).use(Popup).use(Area)
   .use(PullRefresh).use(Toast).use(Field).use(CellGroup)
-  .use(DropdownMenu).use(DropdownItem).use(AddressEdit).use(RadioGroup).use(Radio).use(Form)
+  .use(DropdownMenu).use(DropdownItem).use(AddressEdit).use(RadioGroup).use(Radio).use(Form).use(Cell)
 
 Vue.config.productionTip = false
 
