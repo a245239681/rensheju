@@ -4,10 +4,10 @@
     <!-- <van-nav-bar class="bg"  @click-left="back"  left-text right-text left-arrow /> -->
       <div class="top-show">
         <van-row>
-            <van-col span="20">
+            <van-col span="18">
                 <h3 class="name">{{datas.return_data.acb213}}</h3>
             </van-col>
-            <van-col span="4">
+            <van-col span="6">
                 <span class='fc-w'>{{datas.return_data.aae036}}</span>
             </van-col>
             <van-col span="24">
@@ -54,8 +54,8 @@
       <van-row class="p15">
         <van-col span="20">
           <p class="company-name-show">{{datas.return_data.company.aab004}}</p>
-          <p class=" f12 font-color"><span v-for="(arr, inxs) in datas.return_data.company.tip" :key='inxs'> {{arr}} |</span></p>
-          <p class="f12"><span class="">联系人：</span> {{datas.return_data.company.aae004}} <span class="ml10">联系电话：</span>{{datas.return_data.company.aae005}}</p>
+          <p class=" f14 font-color"><span v-for="(arr, inxs) in datas.return_data.company.tip" :key='inxs'> {{arr}} |</span></p>
+          <p class="f14"><span class="">联系人：</span> {{datas.return_data.company.aae004}}<span class="ml10">联系电话：</span>{{datas.return_data.company.aae005}}</p>
           <!-- <p class="f13"></p> -->
         </van-col>
       </van-row>
@@ -138,14 +138,10 @@ export default {
           let d = this.formatDate(res.data.return_time)
           res.data.return_time = d
           this.datas = res.data
-          let end = this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1]
-          // console.log(end)
-          this.datas.return_data.intrTip[this.datas.return_data.intrTip.length - 1] = '招' + end + '人'
         })
     },
 
     formatDate (value) { // 时间戳转换日期格式方法
-      debugger
       if (value == null) {
         return ''
       } else {
